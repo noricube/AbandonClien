@@ -37,7 +37,7 @@ namespace AbandonClien
         /// <param name="param">GET, POST 데이터</param>
         /// <param name="method">HTTP 요청 method</param>
         /// <returns></returns>
-        public async Task<string> FetchPage(string url, Dictionary<string, string> parameters = null, Method method = Method.Get)
+        public async Task<string> FetchPage(string url, Dictionary<string, string> parameters = null, Method method = Method.Get, bool clearFile = false)
         {
             // GET은 url 뒤에 문자열을 붙인다.
             if (method == Method.Get)
@@ -71,8 +71,24 @@ namespace AbandonClien
             }
             else /*if  ( method == Method.Post) */ // POST는 HttpContent로 보낸다.
             {
-                var content = new FormUrlEncodedContent(parameters);
+                HttpContent content;
+                
+                // 파일 업로드가 있는 경우 multipart로 전환하고 blank.png를 업로드해서 기존파일을 지운다.
+                if (clearFile == true)
+                {
+                    var multipartContent = new MultipartFormDataContent();
+                    foreach (KeyValuePair<string, string> parameter in parameters)
+                    {
+                        multipartContent.Add(new ByteArrayContent(Encoding.UTF8.GetBytes(parameter.Value)), parameter.Key);
+                    }
+                    multipartContent.Add(new ByteArrayContent(Convert.FromBase64String("R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=")), "bf_file[]", "blank.png");
 
+                    content = multipartContent;
+                }
+                else
+                {
+                    content = new FormUrlEncodedContent(parameters);
+                }
                 while (true)
                 {
                     try

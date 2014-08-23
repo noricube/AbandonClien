@@ -1,0 +1,3 @@
+[submodule "xgoogleSharp"]
+	path = xgoogleSharp
+	url = https://github.com/noricube/xgoogleSharp.git

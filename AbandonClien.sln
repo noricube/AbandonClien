@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbandonClien", "AbandonClien\AbandonClien.csproj", "{FA8D2CE0-051F-4381-9F65-6EDC451556DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xgoogleSharp", "xgoogleSharp\xgoogleSharp\xgoogleSharp.csproj", "{1D6C2769-0C77-4755-A6F7-AF6FADCD8779}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{FA8D2CE0-051F-4381-9F65-6EDC451556DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA8D2CE0-051F-4381-9F65-6EDC451556DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA8D2CE0-051F-4381-9F65-6EDC451556DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D6C2769-0C77-4755-A6F7-AF6FADCD8779}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D6C2769-0C77-4755-A6F7-AF6FADCD8779}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D6C2769-0C77-4755-A6F7-AF6FADCD8779}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D6C2769-0C77-4755-A6F7-AF6FADCD8779}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

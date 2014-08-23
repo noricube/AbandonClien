@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using xgoogleSharp;
 
 namespace AbandonClien
 {
@@ -36,7 +37,7 @@ namespace AbandonClien
                 Console.WriteLine("로그인 성공... 글을 수집합니다.");
                 break;
             }
-
+            
             var de = new DestroyEverything(clien);
             de.Collect().Wait();
 
