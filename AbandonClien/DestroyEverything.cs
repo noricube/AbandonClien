@@ -175,7 +175,12 @@ namespace AbandonClien
         public bool Describe()
         {
             Console.WriteLine("총 {0}개의 게시물에서 {1}개의 댓글을 찾았습니다.", Articles.Count, Comments.Count);
-            Console.WriteLine("한번 삭제한글은 복구가 불가능합니다. 삭제하시려면 Y를 누르세요.");
+            Console.WriteLine("한번 삭제하면 복구가 불가능합니다. 삭제하시려면 Y를 누르세요.");
+#if WITHOUT_ARTICLE
+            Console.WriteLine("게시물은 삭제하지 않고 댓글만 삭제합니다.");
+#else
+            Console.WriteLine("게시물과 댓글이 모두 삭제됩니다.");
+#endif
             Console.Write("정말 삭제하시겠습니까? ");
 
             var keyInfo = Console.ReadKey();
@@ -223,7 +228,9 @@ namespace AbandonClien
                 await Task.Delay(1000);
             }
 
+#if !WITHOUT_ARTICLE
             cnt = 0;
+
             foreach (ArticleInfo article in Articles)
             {
                 Console.Write("[{0}/{1}] {2} 게시판의 {3}번 글 삭제", ++cnt, Articles.Count, article.Table, article.ID);
@@ -247,6 +254,7 @@ namespace AbandonClien
 
                 await Task.Delay(1000);
             }
+#endif
         }
     }
 }
