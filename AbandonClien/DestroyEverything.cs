@@ -127,32 +127,38 @@ namespace AbandonClien
 
                 foreach (var result in searchResult.Result)
                 {
-                    // /url?q=http://webcache.googleusercontent.com/search%3Fhl%3Den%26q%3Dcache:phgR10UBmtYJ:http://powoy558vs.egloos.com/2422221%252B%25EB%2585%25B8%25EB%25A6%25AC%25EB%258B%2598%26num%3D100%26%26ct%3Dclnk&amp;sa=U&amp;ei=hzf4U9XsG5S48gW-iIHIDQ&amp;ved=0CKcEECAwZw&amp;usg=AFQjCNEZ3-BmuR67Y2UKzq6nuFHjGOySsQ
-                    // "/url?q=" 로 시작하므로 앞에 글자를 제거하자
-                    var proxyUrl = HttpUtility.ParseQueryString(HttpUtility.HtmlDecode(result.Url.Substring(4)));
-                    var realUrl = HttpUtility.HtmlDecode(proxyUrl["q"]);
-
-                    // 게시판 URL일때만 큐에 넣어둔다.
-                    if (realUrl.IndexOf("board.php") >= 0)
+                    try
                     {
-                        int queryIndex = realUrl.IndexOf('?');
-                        var queryString = HttpUtility.ParseQueryString(realUrl.Substring(queryIndex + 1));
+                        // /url?q=http://webcache.googleusercontent.com/search%3Fhl%3Den%26q%3Dcache:phgR10UBmtYJ:http://powoy558vs.egloos.com/2422221%252B%25EB%2585%25B8%25EB%25A6%25AC%25EB%258B%2598%26num%3D100%26%26ct%3Dclnk&amp;sa=U&amp;ei=hzf4U9XsG5S48gW-iIHIDQ&amp;ved=0CKcEECAwZw&amp;usg=AFQjCNEZ3-BmuR67Y2UKzq6nuFHjGOySsQ
+                        // "/url?q=" 로 시작하므로 앞에 글자를 제거하자
+                        var proxyUrl = HttpUtility.ParseQueryString(HttpUtility.HtmlDecode(result.Url.Substring(4)));
+                        var realUrl = HttpUtility.HtmlDecode(proxyUrl["q"]);
 
-
-                        var foundArticle = new ArticleInfo()
+                        // 게시판 URL일때만 큐에 넣어둔다.
+                        if (realUrl.IndexOf("board.php") >= 0)
                         {
-                            Subject = result.Title,
-                            ID = long.Parse(queryString["wr_id"]),
-                            Table = queryString["bo_table"]
-                        };
+                            int queryIndex = realUrl.IndexOf('?');
+                            var queryString = HttpUtility.ParseQueryString(realUrl.Substring(queryIndex + 1));
 
-                        // 담겨진 요소를 캐시해서 배열에서 요소를 다시 찾아보는낭비를 줄여야하지만
-                        // 이 프로그램은 이정도 성능 이슈는 상관없으므로 무시하자.
-                        if (myArticles.Where(x => (x.ID == foundArticle.ID && x.Table.Equals(foundArticle.Table))).Count() == 0)
-                        {
-                            searchArticles.Add(foundArticle);
-                            //Console.WriteLine("[구굴링 결과] {0}" + foundArticle.Subject); 
+                            var foundArticle = new ArticleInfo()
+                            {
+                                Subject = result.Title,
+                                ID = long.Parse(queryString["wr_id"]),
+                                Table = queryString["bo_table"]
+                            };
+
+                            // 담겨진 요소를 캐시해서 배열에서 요소를 다시 찾아보는낭비를 줄여야하지만
+                            // 이 프로그램은 이정도 성능 이슈는 상관없으므로 무시하자.
+                            if (myArticles.Where(x => (x.ID == foundArticle.ID && x.Table.Equals(foundArticle.Table))).Count() == 0)
+                            {
+                                searchArticles.Add(foundArticle);
+                                //Console.WriteLine("[구굴링 결과] {0}" + foundArticle.Subject); 
+                            }
                         }
+                    }
+                    catch(Exception e)
+                    {
+                        // 검색결과를 파싱하다가 나는 에러는 무시하자.
                     }
                 }
 
